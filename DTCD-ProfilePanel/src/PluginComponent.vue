@@ -58,7 +58,7 @@
           Настройки профиля
         </button>
       </nav>
-      <nav class="SidebarMenu">
+      <!-- <nav class="SidebarMenu">
         <h2 class="SidebarMenuTitle">
           <svg class="SidebarIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.83325 6.66667C5.83325 4.36548 7.69873 2.5 9.99992 2.5C12.3011 2.5 14.1666 4.36548 14.1666 6.66667C14.1666 8.96785 12.3011 10.8333 9.99992 10.8333C7.69873 10.8333 5.83325 8.96785 5.83325 6.66667ZM9.99992 9.16667C11.3806 9.16667 12.4999 8.04738 12.4999 6.66667C12.4999 5.28595 11.3806 4.16667 9.99992 4.16667C8.61921 4.16667 7.49992 5.28595 7.49992 6.66667C7.49992 8.04738 8.61921 9.16667 9.99992 9.16667Z" fill="#17569B"/>
@@ -81,7 +81,7 @@
           v-on:click="changeClass" 
           class="SidebarMenuItem"
         >Настройки</button>
-      </nav>
+      </nav> -->
       <button class="ButtonBack">
         <svg class="IconBack" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4.16667 2.5L11.6667 2.5C12.5871 2.5 13.3333 3.24619 13.3333 4.16667L13.3333 7.5L11.6667 7.5L11.6667 4.16667L4.16667 4.16666L4.16667 15.8333L11.6667 15.8333L11.6667 12.5L13.3333 12.5L13.3333 15.8333C13.3333 16.7538 12.5871 17.5 11.6667 17.5L4.16667 17.5C3.24619 17.5 2.5 16.7538 2.5 15.8333L2.5 4.16666C2.5 3.24619 3.24619 2.5 4.16667 2.5ZM10 6.66667L10 9.16667L17.5 9.16667L17.5 10.8333L10 10.8333L10 13.3333L5.83333 10L10 6.66667Z" fill="#17569B"/>
@@ -94,111 +94,154 @@
       :class="{OpenMainContent: opened}" 
       class="MainContent"
     >
-      <button
-        @click="opened = !opened"
-        class="IconOpenSidebar"
-      >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7.05417 17.0707L14.125 9.99988L7.05417 2.92904L5.875 4.10738L11.7683 9.99988L5.875 15.8924L7.05417 17.0707Z" fill="#17569B"/>
-        </svg>
-      </button>
+      <div class="MainContentWrapper">
+        <button
+          @click="opened = !opened"
+          class="BtnOpenSidebar"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.05417 17.0707L14.125 9.99988L7.05417 2.92904L5.875 4.10738L11.7683 9.99988L5.875 15.8924L7.05417 17.0707Z" fill="#17569B"/>
+          </svg>
+        </button>
 
-      <form 
-        v-if="typeVisibleForm === 'profile'"
-        class="MyProfile"
-      >
-        <base-heading class="MainTitle" theme="theme_subheaderSmall">
-          <h1>Мой профиль</h1>
-        </base-heading>
+        <form 
+          v-if="typeVisibleForm === 'profile'"
+          class="MyProfile"
+        >
+          <base-heading class="MainTitle" theme="theme_subheaderSmall">
+            <h1>Мой профиль</h1>
+          </base-heading>
 
-        <h2 class="Subtitle">Основная информация</h2>
+          <h2 class="Subtitle">Основная информация</h2>
 
-        <div class="ProfileTable">
-          <div class="TableRow">
-            <div class="TableCell">Имя:</div>
-            <div class="TableCell type_bold">Георгий Арановский</div>
+          <div class="ProfileTable">
+            <div class="TableRow">
+              <div class="TableCell">Имя:</div>
+              <div class="TableCell type_bold">Георгий Арановский</div>
+            </div>
+            <div class="TableRow">
+              <div class="TableCell">Имя пользователя:</div>
+              <div class="TableCell type_bold">Aranovsky_G</div>
+            </div>
+            <div class="TableRow">
+              <div class="TableCell">Организация:</div>
+              <div class="TableCell type_bold">ISG Neuro</div>
+            </div>
+            <div class="TableRow">
+              <div class="TableCell">Роль:</div>
+              <div class="TableCell type_bold">Администратор</div>
+            </div>
           </div>
-          <div class="TableRow">
-            <div class="TableCell">Имя пользователя:</div>
-            <div class="TableCell type_bold">Aranovsky_G</div>
-          </div>
-          <div class="TableRow">
-            <div class="TableCell">Организация:</div>
-            <div class="TableCell type_bold">ISG Neuro</div>
-          </div>
-          <div class="TableRow">
-            <div class="TableCell">Роль:</div>
-            <div class="TableCell type_bold">Администратор</div>
-          </div>
-        </div>
-      </form>
+        </form>
 
-      <form 
-        v-if="typeVisibleForm === 'theme'"
-      >
-        <base-heading class="MainTitle" theme="theme_subheaderSmall">
-          <h1>Выбор темы</h1>
-        </base-heading>
-        <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
+        <form 
+          v-if="typeVisibleForm === 'theme'"
+          class="ProfileTheme"
+        >
+          <base-heading class="MainTitle" theme="theme_subheaderSmall">
+            <h1>Выбор темы</h1>
+          </base-heading>
+          <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
 
-        <base-select size="big" label="Мои темы">
-          <div class="SelectItem" slot="item" value="1">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
-            </svg>
-            Светлая
+          <base-select size="big" label="Мои темы">
+            <div class="SelectItem" slot="item" value="1">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
+              </svg>
+              Светлая
+            </div>
+            <div class="SelectItem" slot="item" value="2">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
+              </svg>
+              Темная
+            </div>
+            <div class="SelectItem" slot="item" value="3">Тема 1</div>
+            <div class="SelectItem" slot="item" value="4">Тема 2</div>
+            <div class="SelectItem" slot="item" value="5">Тема 3</div>
+            <div class="SelectItem" slot="item" value="6">Тема 4</div>
+          </base-select>
+          <div class="FooterButtons">
+            <base-button size="big">Сохранить</base-button>
           </div>
-          <div class="SelectItem" slot="item" value="2">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
-            </svg>
-            Темная
+        </form>
+
+        <form 
+          v-if="typeVisibleForm === 'settings'"
+          class="ProfileSettings"
+        >
+          <base-heading class="MainTitle" theme="theme_subheaderSmall">
+            <h1>Настройки профиля</h1>
+          </base-heading>
+          <h2 class="Subtitle">Основная информация</h2>
+
+          <div class="SectionLoadPhoto">
+            <span class="Title">Фото</span>
+            <div class="LoadImage">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM5 5V19H19V5H5ZM18 17H6L9 13L10 14L13 10L18 17ZM8.5 11C7.67157 11 7 10.3284 7 9.5C7 8.67157 7.67157 8 8.5 8C9.32843 8 10 8.67157 10 9.5C10 10.3284 9.32843 11 8.5 11Z" fill="#938FA0"/>
+              </svg>
+              <span class="LoadImageTitle">Загрузить изображение</span>
+            </div>
+            <span class="Annotation">Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен превышать 10mb.</span>
           </div>
-          <div class="SelectItem" slot="item" value="3">Тема 1</div>
-          <div class="SelectItem" slot="item" value="4">Тема 2</div>
-          <div class="SelectItem" slot="item" value="5">Тема 3</div>
-          <div class="SelectItem" slot="item" value="6">Тема 4</div>
-        </base-select>
-        <div class="FooterButtons">
-          <base-button size="big">Сохранить</base-button>
-        </div>
-      </form>
 
-      <form 
-        v-if="typeVisibleForm === 'settings'"
-        class="ProfileSettings"
-      >
-        <base-heading class="MainTitle" theme="theme_subheaderSmall">
-          <h1>Настройки профиля</h1>
-        </base-heading>
-        <h2 class="Subtitle">Основная информация</h2>
-
-        <div class="SectionLoadPhoto">
-          <span class="Title">Фото</span>
-          <div class="LoadImage">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM5 5V19H19V5H5ZM18 17H6L9 13L10 14L13 10L18 17ZM8.5 11C7.67157 11 7 10.3284 7 9.5C7 8.67157 7.67157 8 8.5 8C9.32843 8 10 8.67157 10 9.5C10 10.3284 9.32843 11 8.5 11Z" fill="#938FA0"/>
-            </svg>
-            <span class="LoadImageTitle">Загрузить изображение</span>
+          <base-input 
+            class="FieldInput" 
+            label="Имя" 
+            placeholder="Георгий" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            label="Фамилия" 
+            placeholder="Арановский" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            label="Имя пользователя" 
+            placeholder="Aranovsky.G" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            label="Электронная почта" 
+            placeholder="Введите адрес электронной почты" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            label="Название организации" 
+            placeholder="Введите название организации" 
+            size="big">
+          </base-input>
+          <h2 class="Subtitle">Изменить пароль</h2>
+          <base-input 
+            class="FieldInput" 
+            type="password" 
+            label="Старый пароль" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            type="password" 
+            label="Новый пароль" 
+            size="big">
+          </base-input>
+          <base-input 
+            class="FieldInput" 
+            type="password" 
+            label="Повторите пароль" 
+            size="big">
+          </base-input>
+          
+          <div class="FooterButtons">
+            <base-button size="big" theme="theme_blueSec">Отменить</base-button>
+            <base-button size="big">Сохранить</base-button>
           </div>
-          <span class="Annotation">Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен превышать 10mb.</span>
-        </div>
-
-        <base-input class="FieldInput" label="Имя" placeholder="Георгий" size="big"></base-input>
-        <base-input class="FieldInput" label="Фамилия" placeholder="Арановский" size="big"></base-input>
-        <base-input class="FieldInput" label="Имя пользователя" placeholder="Aranovsky.G" size="big"></base-input>
-        <base-input class="FieldInput" label="Электронная почта" placeholder="Введите адрес электронной почты" size="big"></base-input>
-        <base-input class="FieldInput" label="Название организации" placeholder="Введите название организации" size="big"></base-input>
-        <h2 class="Subtitle">Изменить пароль</h2>
-        <base-input class="FieldInput" type="password" label="Старый пароль" size="big"></base-input>
-        <base-input class="FieldInput" type="password" label="Новый пароль" size="big"></base-input>
-        <base-input class="FieldInput" type="password" label="Повторите пароль" size="big"></base-input>
-        
-        <div class="FooterButtons">
-          <base-button size="big" theme="theme_blueSec">Отменить</base-button>
-          <base-button size="big">Сохранить</base-button>
-        </div>
-      </form>
+        </form>
+      </div>
     </section>
   </div>
 </template>
@@ -274,16 +317,15 @@ export default {
     display: none;
     position: relative;
     transition: 0.3s;
+    z-index: 1;
+    flex-direction: column;
 
     &_opened{
-      display: block;
-
-      @media (max-width: 992px) {
-        width: 300px;
-      }
+      display: flex;
+      width: 100%;
 
       @media (max-width: 576px) {
-        width: 100vw;
+        max-width: 100vw;
       }
     }
 
@@ -293,6 +335,8 @@ export default {
       right: 20px;
       display: none;
       cursor: pointer;
+      border: none;
+      background-color: transparent;
 
       @media (max-width: 992px) {
         display: block;
@@ -354,20 +398,12 @@ export default {
 
     .SidebarMenu {
       padding-bottom: 10px;
-
-      &:nth-of-type(3) {
-        padding-bottom: 35%;
-
-        @media (max-width: 576px) {
-          padding-bottom: 20%;
-        }
-      }
     }
 
     .SidebarMenuItem {
       color: var(--button_primary);
       display: block;
-      padding: 6px 0 6px 54px;
+      padding: 6px 0 6px 53px;
       font-size: 15px;
       font-weight: 600;
       width: 100%;
@@ -397,11 +433,13 @@ export default {
       border: none;
       background-color: transparent;
       display: flex;
-      padding-left: 29px;
+      padding-left: 25px;
       padding-bottom: 50px;
       cursor: pointer;
       font-weight: 700;
-      align-items: flex-start;
+      font-size: 17px;
+      align-items: center;
+      margin-top: auto;
 
       .IconBack {
         margin-right: 8px;
@@ -410,101 +448,114 @@ export default {
   }
 
   .MainContent {
-    position: relative;
-    max-width: 456px;
     padding: 50px 20px 0;
 
-    .IconOpenSidebar {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      cursor: pointer;
-    }
+    .MainContentWrapper{
+      max-width: 456px;
+      height: 100%;
 
-    .MyProfile {
-      .ProfileTable {
-        display: table;
-        border-collapse:collapse;
-        font-size: 15px;
+      .BtnOpenSidebar {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+      }
 
-        .TableRow {
-          display: table-row;
+      .MyProfile,
+      .ProfileTheme,
+      .ProfileSettings {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      }
 
-          .TableCell {
-            display: table-cell;
-            padding-bottom: 8px;
-            
-            &.type_bold {
-              padding-left: 30px;
-              font-weight: 700;
+      .MyProfile {
+        .ProfileTable {
+          display: table;
+          border-collapse:collapse;
+          font-size: 15px;
+
+          .TableRow {
+            display: table-row;
+
+            .TableCell {
+              display: table-cell;
+              padding-bottom: 8px;
+              
+              &.type_bold {
+                padding-left: 30px;
+                font-weight: 700;
+              }
             }
           }
         }
       }
-    }
 
-    .ProfileSettings {
-      .SectionLoadPhoto {
-        .LoadImage {
-          width: 100px;
-          height: 100px;
-          background-color: var(--border_secondary);
-          border: 1px solid var(--border);
-          border-radius: 6.66px;
-          margin-bottom: 4px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          justify-content: center;
-          cursor: pointer;
+      .ProfileSettings {
+        .SectionLoadPhoto {
+          .LoadImage {
+            width: 100px;
+            height: 100px;
+            background-color: var(--border_secondary);
+            border: 1px solid var(--border);
+            border-radius: 6.66px;
+            margin-bottom: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            cursor: pointer;
 
-          .LoadImageTitle {
-            font-size: 10px;
-            line-height: 1.25;
-            color: var(--text_secondary);
+            .LoadImageTitle {
+              font-size: 10px;
+              line-height: 1.25;
+              color: var(--text_secondary);
+            }
           }
         }
       }
-    }
 
-    .Title {
-      font-weight: 600;
-      padding-bottom: 6px;
-    }
+      .Title {
+        font-weight: 600;
+        padding-bottom: 6px;
+      }
 
-    .SelectItem {
-      padding: 8.5px 0 9.5px 12px;
-    }
+      .SelectItem {
+        padding: 8.5px 0 9.5px 12px;
+      }
 
-    .Annotation {
-      color: var(--text_secondary);
-    }
+      .Annotation {
+        color: var(--text_secondary);
+      }
 
-    .Title,
-    .Annotation {
-      display: block;
-      font-size: 11px;
-      line-height: 1.1;
-    }
+      .Title,
+      .Annotation {
+        display: block;
+        font-size: 11px;
+        line-height: 1.1;
+      }
 
-    .MainTitle,
-    .Subtitle,
-    .Annotation {
-      padding-bottom: 16px;
-    }
+      .MainTitle,
+      .Subtitle,
+      .Annotation {
+        padding-bottom: 16px;
+      }
 
-    .MainTitle {
-      display: block;
-    }
+      .MainTitle {
+        display: block;
+      }
 
-    .FieldInput {
-      padding-bottom: 16px;
-    }
+      .FieldInput {
+        padding-bottom: 16px;
+      }
 
-    .FooterButtons {
-      padding-top: 48px;
-      padding-bottom: 32px;
+      .FooterButtons {
+        padding: 32px 0;
+        margin-top: auto;
+      }
     }
   }
 
@@ -521,11 +572,12 @@ export default {
   .MainContent,
   .OpenMainContent {
     transition: margin-left 0.3s;
-    width: 100vw;
+    width: 100%;
   }
   
   .Subtitle {
     color: var(--title);
+    font-size: 17px;
   }
 
   .ProfileOwnerPosition {
@@ -535,6 +587,7 @@ export default {
   .SidebarMenuTitle {
     padding: 0 30px 16px;
     font-weight: 700;
+    font-size: 17px;
     display: flex;
   }
 
