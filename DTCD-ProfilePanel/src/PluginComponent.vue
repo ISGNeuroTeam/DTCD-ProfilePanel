@@ -10,7 +10,9 @@
         <path d="M12.9458 2.92929L5.875 10.0001L12.9458 17.071L14.125 15.8926L8.23167 10.0001L14.125 4.10762L12.9458 2.92929Z" fill="#17569B"/>
       </svg>
       <div class="ProfileOwner">
-        <div class="ProfilePhoto"></div>
+        <div class="ProfilePhoto">
+          <div class="ProfilePhotoImg"></div>
+        </div>
         <div class="ProfileOwnerData">
           <base-heading class="ProfileOwnerName" theme="theme_subheaderSmall"><h1>Георгий Арановский</h1></base-heading>
           <span class="ProfileOwnerPosition">Дизайнер в ISG Neuro</span>
@@ -18,8 +20,6 @@
         </div>
       </div>
       <div 
-      v-bind:class="active" 
-      v-on:click.prevent 
       class="SidebarMenu">
         <h2 class="SidebarMenuTitle">
           <svg class="SidebarIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,24 +30,22 @@
           </svg>
         Профиль</h2>
         <button 
-        v-on:click="makeActive('type_profile')"
+        v-on:click="changeClass" 
         @click="() => { toggleForms('profile') }" 
-        class="SidebarMenuItem type_profile"> 
+        class="SidebarMenuItem active"> 
         Мой профиль</button>
         <button 
-        v-on:click="makeActive('type_theme')"
+        v-on:click="changeClass" 
         @click="() => { toggleForms('theme') }" 
-        class="SidebarMenuItem type_theme">
+        class="SidebarMenuItem">
         Выбор темы</button>
         <button 
-        v-on:click="makeActive('type_profileSettings')"
+        v-on:click="changeClass" 
         @click="() => { toggleForms('settings') }"
-        class="SidebarMenuItem type_profileSettings">
+        class="SidebarMenuItem">
         Настройки профиля</button>
       </div>
       <div 
-      v-bind:class="active" 
-      v-on:click.prevent
       class="SidebarMenu">
         <h2 class="SidebarMenuTitle">
           <svg class="SidebarIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,16 +57,16 @@
           </svg>
         Панель администратора</h2>
         <button 
-        v-on:click="makeActive('type_usersRole')" 
-        class="SidebarMenuItem type_usersRole">
+        v-on:click="changeClass" 
+        class="SidebarMenuItem">
         Пользовательские роли</button>
         <button 
-        v-on:click="makeActive('type_users')"
-        class="SidebarMenuItem type_users">
+        v-on:click="changeClass" 
+        class="SidebarMenuItem">
         Пользователи</button>
         <button 
-        v-on:click="makeActive('type_settings')"
-        class="SidebarMenuItem type_settings">
+        v-on:click="changeClass" 
+        class="SidebarMenuItem">
         Настройки</button>
       </div>
       <button class="ButtonBack">
@@ -79,7 +77,6 @@
     </nav>
     <div 
     :class="{mainopen: opened}" 
-    @click="opened = !sidebaropen" 
     class="MainContent">
       <svg 
       @click="opened = !opened" 
@@ -112,26 +109,25 @@
         </div>
       </form>
       <form 
-      v-if="typeVisibleForm === 'theme'"
-      class="SelectTheme">
+      v-if="typeVisibleForm === 'theme'">
         <base-heading class="MainTitle" theme="theme_subheaderSmall"><h1>Выбор темы</h1></base-heading>
         <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
         <span class="Title">Мои темы</span>
         <base-select size="big">
-          <div slot="item" value="1">
+          <div class="SelectItem" slot="item" value="1">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
             </svg>
           Светлая</div>
-          <div slot="item" value="2">
+          <div class="SelectItem" slot="item" value="2">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
             </svg>
           Темная</div>
-          <div slot="item" value="3">Тема 1</div>
-          <div slot="item" value="4">Тема 2</div>
-          <div slot="item" value="5">Тема 3</div>
-          <div slot="item" value="6">Тема 4</div>
+          <div class="SelectItem" slot="item" value="3">Тема 1</div>
+          <div class="SelectItem" slot="item" value="4">Тема 2</div>
+          <div class="SelectItem" slot="item" value="5">Тема 3</div>
+          <div class="SelectItem" slot="item" value="6">Тема 4</div>
         </base-select>
         <div class="FooterButtons">
           <base-button size="big">Сохранить</base-button>
@@ -173,28 +169,30 @@
 <script>
 export default {
   name: 'ProfilePanel',
-  data({ $root }) {
+  data() {
     return {
-      plugin: $root.plugin,
-      typeVisibleForm: 'theme',
-      active: 'type_theme',
+      typeVisibleForm: 'profile',
       opened: true
     };
   },
   methods: {
     toggleForms(typeTargetForm) {
       switch (typeTargetForm) {
-        case 'profile':
+        case 'theme':
         case 'settings':
           this.typeVisibleForm = typeTargetForm;
           break;
         default:
-          this.typeVisibleForm = 'theme';
+          this.typeVisibleForm = 'profile';
           break;
       }
     },
-    makeActive: function(item){
-      this.active = item;
+    changeClass(e) {
+      document
+        .querySelectorAll(".SidebarMenuItem")
+        .forEach((e) => e.classList.remove("active"));
+      const id = e.target.id;
+      e.target.classList.add("active");
     },
     onResize() {
       if (window.innerWidth > 992) {
@@ -221,16 +219,6 @@ export default {
   position: relative;
   display: flex;
 
-  .SidebarMenu.type_profile .type_profile,
-  .SidebarMenu.type_theme .type_theme,
-  .SidebarMenu.type_profileSettings .type_profileSettings,
-  .SidebarMenu.type_usersRole .type_usersRole,
-  .SidebarMenu.type_users .type_users,
-  .SidebarMenu.type_settings .type_settings {
-    background-color: var(--button_primary_86);
-    color:var(--background_main);
-  }
-
   &,
   *,
   *::after,
@@ -246,7 +234,7 @@ export default {
     height: fit-content;
     display: none;
     width: 0;
-    z-index: 1;
+    z-index: 9999;
     position: relative;
 
     .IconHideSidebar {
@@ -254,6 +242,7 @@ export default {
       top: 20px;
       right: 20px;
       display: none;
+      cursor: pointer;
 
       @media (max-width: 992px) {
         display: block;
@@ -266,10 +255,6 @@ export default {
       flex-direction: column;
       align-items: center;
 
-      @media (max-width: 992px) {
-        padding-bottom: 128px;
-      }
-
        @media (max-width: 576px) {
         width: 100vw;
       }
@@ -280,10 +265,22 @@ export default {
         border-radius: 20px;
         background-color: aquamarine;
         margin-bottom: 8px;
+        position: relative;
+        display: flex;
+        overflow: hidden;
 
         @media (max-width: 992px) {
           width: 180px;
           height: 180px;
+        }
+
+        .ProfilePhotoImg {
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          min-width: 100%;
+          min-height: 100%;
         }
       }
 
@@ -308,14 +305,18 @@ export default {
       padding-bottom: 10px;
 
       &:nth-of-type(3) {
-        padding-bottom: 200px;
+        padding-bottom: 35%;
+
+        @media (max-width: 576px) {
+          padding-bottom: 20%;
+        }
       }
     }
 
     .SidebarMenuItem {
       color: var(--button_primary);
       display: block;
-      padding: 6px 0 6px 58px;
+      padding: 6px 0 6px 54px;
       font-size: 15px;
       font-weight: 600;
       width: 100%;
@@ -334,16 +335,22 @@ export default {
       &:hover {
         background-color: var(--button_primary_24);
       }
+
+      &.active {
+        background-color: var(--button_primary_86);
+        color:var(--background_main);
+      }
     }
 
     .ButtonBack {
       border: none;
       background-color: transparent;
       display: flex;
-      align-items: center;
-      padding-left: 30px;
+      padding-left: 29px;
       padding-bottom: 50px;
       cursor: pointer;
+      font-weight: 700;
+      align-items: flex-start;
 
       .IconBack {
         margin-right: 8px;
@@ -377,6 +384,7 @@ export default {
       position: absolute;
       top: 20px;
       left: 20px;
+      cursor: pointer;
     }
 
     .MyProfile {
@@ -432,6 +440,10 @@ export default {
     .Title {
       font-weight: 600;
       padding-bottom: 6px;
+    }
+
+    .SelectItem {
+      padding: 8.5px 0 9.5px 12px;
     }
 
     .Annotation {
@@ -491,11 +503,11 @@ export default {
     display: flex;
   }
 
-  .ProfileOwnerPosition, .SidebarMenuTitle {
+  .ProfileOwnerPosition, .SidebarMenuTitle, .ButtonBack {
     color: var(--text_main);
   }
 
-  .ProfileOwnerPosition, .Subtitle, .SidebarMenuTitle {
+  .ProfileOwnerPosition, .Subtitle, .SidebarMenuTitle, .ButtonBack {
     font-size: 17px;
     line-height: 1.3;
   }
