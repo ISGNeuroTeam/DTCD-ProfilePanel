@@ -1,11 +1,11 @@
 <template>
-  <div class="ProfilePanel">
-    <section 
-      :class="opened ? 'Sidebar_opened': ''" 
-      class="Sidebar"
-    >
+  <div
+    class="ProfilePanel"
+    :class="isSidebarOpened ? 'withOpenedSidebar': ''"
+  >
+    <section class="Sidebar">
       <button
-        @click="opened = !opened"
+        @click="isSidebarOpened = !isSidebarOpened"
         class="BtnHideSidebar"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,9 +24,7 @@
         </div>
       </div>
 
-      <nav 
-        class="SidebarMenu"
-      >
+      <nav class="SidebarMenu">
         <h2 class="SidebarMenuTitle">
           <svg class="SidebarIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.83325 6.66667C5.83325 4.36548 7.69873 2.5 9.99992 2.5C12.3011 2.5 14.1666 4.36548 14.1666 6.66667C14.1666 8.96785 12.3011 10.8333 9.99992 10.8333C7.69873 10.8333 5.83325 8.96785 5.83325 6.66667ZM9.99992 9.16667C11.3806 9.16667 12.4999 8.04738 12.4999 6.66667C12.4999 5.28595 11.3806 4.16667 9.99992 4.16667C8.61921 4.16667 7.49992 5.28595 7.49992 6.66667C7.49992 8.04738 8.61921 9.16667 9.99992 9.16667Z" fill="#17569B"/>
@@ -37,22 +35,22 @@
           Профиль
         </h2>
         <button 
-          v-on:click="changeClass" 
-          @click="() => { toggleForms('profile') }" 
-          class="SidebarMenuItem active"
+          @click="() => { toggleProfileContent('profile_info') }"
+          :class="typeVisibleContent === 'profile_info' ? 'active' : ''"
+          class="SidebarMenuItem"
         > 
           Мой профиль
         </button>
         <button 
-          v-on:click="changeClass" 
-          @click="() => { toggleForms('theme') }" 
+          @click="() => { toggleProfileContent('choice_theme') }"
+          :class="typeVisibleContent === 'choice_theme' ? 'active' : ''"
           class="SidebarMenuItem"
         >
           Выбор темы
         </button>
         <button 
-          v-on:click="changeClass" 
-          @click="() => { toggleForms('settings') }"
+          @click="() => { toggleProfileContent('profile_settings') }"
+          :class="typeVisibleContent === 'profile_settings' ? 'active' : ''"
           class="SidebarMenuItem"
         >
           Настройки профиля
@@ -83,20 +81,17 @@
         >Настройки</button>
       </nav> -->
       <button class="ButtonBack">
-        <svg class="IconBack" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4.16667 2.5L11.6667 2.5C12.5871 2.5 13.3333 3.24619 13.3333 4.16667L13.3333 7.5L11.6667 7.5L11.6667 4.16667L4.16667 4.16666L4.16667 15.8333L11.6667 15.8333L11.6667 12.5L13.3333 12.5L13.3333 15.8333C13.3333 16.7538 12.5871 17.5 11.6667 17.5L4.16667 17.5C3.24619 17.5 2.5 16.7538 2.5 15.8333L2.5 4.16666C2.5 3.24619 3.24619 2.5 4.16667 2.5ZM10 6.66667L10 9.16667L17.5 9.16667L17.5 10.8333L10 10.8333L10 13.3333L5.83333 10L10 6.66667Z" fill="#17569B"/>
         </svg>
-        Выход
+        <span class="Text">Выход</span>
       </button>
     </section>
 
-    <section 
-      :class="{OpenMainContent: opened}" 
-      class="MainContent"
-    >
+    <section class="MainContent">
       <div class="MainContentWrapper">
         <button
-          @click="opened = !opened"
+          @click="isSidebarOpened = !isSidebarOpened"
           class="BtnOpenSidebar"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +100,7 @@
         </button>
 
         <form 
-          v-if="typeVisibleForm === 'profile'"
+          v-if="typeVisibleContent === 'profile_info'"
           class="MyProfile"
         >
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
@@ -135,7 +130,7 @@
         </form>
 
         <form 
-          v-if="typeVisibleForm === 'theme'"
+          v-if="typeVisibleContent === 'choice_theme'"
           class="ProfileTheme"
         >
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
@@ -167,7 +162,7 @@
         </form>
 
         <form 
-          v-if="typeVisibleForm === 'settings'"
+          v-if="typeVisibleContent === 'profile_settings'"
           class="ProfileSettings"
         >
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
@@ -251,48 +246,48 @@ export default {
   name: 'ProfilePanel',
   data() {
     return {
-      typeVisibleForm: 'profile',
-      opened: true
+      typeVisibleContent: 'profile_info',
+      isSidebarOpened: true,
+      windowResizeTimer: null,
     };
   },
   methods: {
-    toggleForms(typeTargetForm) {
+    toggleProfileContent(typeTargetForm) {
       switch (typeTargetForm) {
-        case 'theme':
-        case 'settings':
-          this.typeVisibleForm = typeTargetForm;
+        case 'choice_theme':
+        case 'profile_settings':
+          this.typeVisibleContent = typeTargetForm;
           break;
+
         default:
-          this.typeVisibleForm = 'profile';
+          this.typeVisibleContent = 'profile_info';
           break;
       }
-    },
-    changeClass(e) {
-      document
-        .querySelectorAll(".SidebarMenuItem")
-        .forEach((e) => e.classList.remove("active"));
-      const id = e.target.id;
-      e.target.classList.add("active");
     },
     onResize() {
-      if (window.innerWidth > 992) {
-        this.opened = true
-      } else {
-        this.opened = false
+      if(this.windowResizeTimer !== null) {
+        clearTimeout(this.windowResizeTimer);        
       }
+      this.windowResizeTimer = setTimeout(() => {
+        if (window.innerWidth > 992) {
+          this.isSidebarOpened = true;
+        }
+      }, 50);
     }
   },
   created() {
-    window.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', this.onResize);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize)
-  }
+    window.removeEventListener('resize', this.onResize);
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .ProfilePanel {
+  --padding-side: 30px;
+
   font-family: 'Proxima Nova';
   font-size: 17px;
   line-height: 1.3;
@@ -320,37 +315,14 @@ export default {
     z-index: 1;
     flex-direction: column;
 
-    &_opened{
-      display: flex;
-      width: 100%;
-
-      @media (max-width: 576px) {
-        max-width: 100vw;
-      }
-    }
-
-    .BtnHideSidebar {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: none;
-      cursor: pointer;
-      border: none;
-      background-color: transparent;
-
-      @media (max-width: 992px) {
-        display: block;
-      }
-    }
-
     .ProfileOwner {
-      padding: 50px 33px 50px 30px;
+      padding: 50px var(--padding-side);
       display: flex;
       flex-direction: column;
       align-items: center;
 
       .ProfilePhoto {
-        max-width: 257px;
+        max-width: 258px;
         width: 100%;
         border-radius: 20px;
         background-color: aquamarine;
@@ -403,7 +375,7 @@ export default {
     .SidebarMenuItem {
       color: var(--button_primary);
       display: block;
-      padding: 6px 0 6px 53px;
+      padding: 6px var(--padding-side) 6px calc(var(--padding-side) + 23px);
       font-size: 15px;
       font-weight: 600;
       width: 100%;
@@ -433,146 +405,145 @@ export default {
       border: none;
       background-color: transparent;
       display: flex;
-      padding-left: 25px;
-      padding-bottom: 50px;
+      padding: 0 var(--padding-side) 50px;
       cursor: pointer;
       font-weight: 700;
       font-size: 17px;
       align-items: center;
       margin-top: auto;
 
-      .IconBack {
-        margin-right: 8px;
+      .Text {
+        padding-left: 8px;
       }
     }
   }
 
   .MainContent {
+    position: relative;
     padding: 50px 20px 0;
+    width: 100%;
 
     .MainContentWrapper{
       max-width: 456px;
       height: 100%;
+    }
 
-      .BtnOpenSidebar {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        cursor: pointer;
-        border: none;
-        background-color: transparent;
-      }
+    .MyProfile,
+    .ProfileTheme,
+    .ProfileSettings {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
 
-      .MyProfile,
-      .ProfileTheme,
-      .ProfileSettings {
-        display: flex;
-        flex-direction: column;
-        min-height: 100%;
-      }
+    .MyProfile {
+      .ProfileTable {
+        display: table;
+        border-collapse:collapse;
+        font-size: 15px;
 
-      .MyProfile {
-        .ProfileTable {
-          display: table;
-          border-collapse:collapse;
-          font-size: 15px;
+        .TableRow {
+          display: table-row;
 
-          .TableRow {
-            display: table-row;
-
-            .TableCell {
-              display: table-cell;
-              padding-bottom: 8px;
-              
-              &.type_bold {
-                padding-left: 30px;
-                font-weight: 700;
-              }
+          .TableCell {
+            display: table-cell;
+            padding-bottom: 8px;
+            
+            &.type_bold {
+              padding-left: 30px;
+              font-weight: 700;
             }
           }
         }
       }
+    }
 
-      .ProfileSettings {
-        .SectionLoadPhoto {
-          .LoadImage {
-            width: 100px;
-            height: 100px;
-            background-color: var(--border_secondary);
-            border: 1px solid var(--border);
-            border-radius: 6.66px;
-            margin-bottom: 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            justify-content: center;
-            cursor: pointer;
+    .ProfileSettings {
+      .SectionLoadPhoto {
+        .LoadImage {
+          width: 100px;
+          height: 100px;
+          background-color: var(--border_secondary);
+          border: 1px solid var(--border);
+          border-radius: 6.66px;
+          margin-bottom: 4px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          justify-content: center;
+          cursor: pointer;
 
-            .LoadImageTitle {
-              font-size: 10px;
-              line-height: 1.25;
-              color: var(--text_secondary);
-            }
+          .LoadImageTitle {
+            font-size: 10px;
+            line-height: 1.25;
+            color: var(--text_secondary);
           }
         }
       }
+    }
 
-      .Title {
-        font-weight: 600;
-        padding-bottom: 6px;
-      }
+    .Title {
+      font-weight: 600;
+      padding-bottom: 6px;
+    }
 
-      .SelectItem {
-        padding: 8.5px 0 9.5px 12px;
-      }
+    .SelectItem {
+      padding: 8.5px 0 9.5px 12px;
+    }
 
-      .Annotation {
-        color: var(--text_secondary);
-      }
+    .Annotation {
+      color: var(--text_secondary);
+    }
 
-      .Title,
-      .Annotation {
-        display: block;
-        font-size: 11px;
-        line-height: 1.1;
-      }
+    .Title,
+    .Annotation {
+      display: block;
+      font-size: 11px;
+      line-height: 1.1;
+    }
 
-      .MainTitle,
-      .Subtitle,
-      .Annotation {
-        padding-bottom: 16px;
-      }
+    .MainTitle,
+    .Subtitle,
+    .Annotation {
+      padding-bottom: 16px;
+    }
 
-      .MainTitle {
-        display: block;
-      }
+    .MainTitle {
+      display: block;
+    }
 
-      .FieldInput {
-        padding-bottom: 16px;
-      }
+    .FieldInput {
+      padding-bottom: 16px;
+    }
 
-      .FooterButtons {
-        padding: 32px 0;
-        margin-top: auto;
-      }
+    .FooterButtons {
+      padding: 32px 0;
+      margin-top: auto;
     }
   }
 
-  .OpenMainContent{
-    overflow: hidden;
+  .BtnHideSidebar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
 
-    @media (max-width: 768px) {
-      position: absolute;
-      top: 0;
-      left: 20%;
+    @media (max-width: 992px) {
+      display: none;
     }
   }
 
-  .MainContent,
-  .OpenMainContent {
-    transition: margin-left 0.3s;
-    width: 100%;
+  .BtnOpenSidebar {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
   }
   
   .Subtitle {
@@ -585,7 +556,7 @@ export default {
   }
 
   .SidebarMenuTitle {
-    padding: 0 30px 16px;
+    padding: 0 var(--padding-side) 16px;
     font-weight: 700;
     font-size: 17px;
     display: flex;
@@ -595,6 +566,29 @@ export default {
   .SidebarMenuTitle,
   .ButtonBack {
     color: var(--text_main);
+  }
+
+  &.withOpenedSidebar {
+    .Sidebar{
+      display: flex;
+      width: 100%;
+
+      @media (max-width: 576px) {
+        max-width: 100vw;
+      }
+    }
+
+    .BtnHideSidebar {
+      display: flex;
+
+      @media (min-width: 992px) {
+        display: none;
+      }
+    }
+
+    .BtnOpenSidebar {
+      display: none;
+    }
   }
 }
 </style>
