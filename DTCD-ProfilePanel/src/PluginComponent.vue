@@ -1,7 +1,7 @@
 <template>
   <div class="ProfilePanel">
     <nav 
-    :class="{sidebaropen: opened}" 
+    :class="{OpenSidebar: opened}" 
     class="Sidebar" >
       <svg 
       @click="opened = !opened" 
@@ -76,7 +76,7 @@
         Выход</button>
     </nav>
     <div 
-    :class="{mainopen: opened}" 
+    :class="{OpenMainContent: opened}" 
     class="MainContent">
       <svg 
       @click="opened = !opened" 
@@ -358,7 +358,7 @@ export default {
     }
   }
 
-  .sidebaropen{
+  .OpenSidebar{
     width: fit-content;
     display: block;
 
@@ -371,7 +371,7 @@ export default {
     }
   }
 
-  .Sidebar, .sidebaropen {
+  .Sidebar, .OpenSidebar {
     overflow: hidden;
     transition: 0.3s;
   }
@@ -474,7 +474,7 @@ export default {
     }
   }
 
-  .mainopen{
+  .OpenMainContent{
     overflow: hidden;
 
     @media (max-width: 768px) {
@@ -484,7 +484,7 @@ export default {
     }
   }
 
-  .MainContent, .mainopen {
+  .MainContent, .OpenMainContent {
     transition: margin-left 0.3s;
     width: 100vw;
   }
