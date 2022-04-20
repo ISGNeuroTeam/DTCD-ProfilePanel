@@ -6,7 +6,7 @@
     <section class="Sidebar">
       <button
         @click="isSidebarOpened = !isSidebarOpened"
-        class="BtnHideSidebar"
+        class="BtnSidebar type_hide"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.9458 2.92929L5.875 10.0001L12.9458 17.071L14.125 15.8926L8.23167 10.0001L14.125 4.10762L12.9458 2.92929Z" fill="#17569B"/>
@@ -92,7 +92,7 @@
       <div class="MainContentWrapper">
         <button
           @click="isSidebarOpened = !isSidebarOpened"
-          class="BtnOpenSidebar"
+          class="BtnSidebar type_open"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.05417 17.0707L14.125 9.99988L7.05417 2.92904L5.875 4.10738L11.7683 9.99988L5.875 15.8924L7.05417 17.0707Z" fill="#17569B"/>
@@ -169,17 +169,16 @@
             <h1>Настройки профиля</h1>
           </base-heading>
           <h2 class="Subtitle">Основная информация</h2>
-
-          <div class="SectionLoadPhoto">
-            <span class="Title">Фото</span>
-            <div class="LoadImage">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM5 5V19H19V5H5ZM18 17H6L9 13L10 14L13 10L18 17ZM8.5 11C7.67157 11 7 10.3284 7 9.5C7 8.67157 7.67157 8 8.5 8C9.32843 8 10 8.67157 10 9.5C10 10.3284 9.32843 11 8.5 11Z" fill="#938FA0"/>
-              </svg>
-              <span class="LoadImageTitle">Загрузить изображение</span>
-            </div>
-            <span class="Annotation">Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен превышать 10mb.</span>
-          </div>
+          
+          <base-file-loader
+            description="Загрузить изображение"
+            class="LoadImage">
+            <span slot="label">Фото</span>
+            <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">    
+              <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM5 5V19H19V5H5ZM18 17H6L9 13L10 14L13 10L18 17ZM8.5 11C7.67157 11 7 10.3284 7 9.5C7 8.67157 7.67157 8 8.5 8C9.32843 8 10 8.67157 10 9.5C10 10.3284 9.32843 11 8.5 11Z" fill="#938FA0"/>
+            </svg>
+          </base-file-loader>
+          <span class="Annotation">Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен превышать 10mb.</span>
 
           <base-input 
             class="FieldInput" 
@@ -315,8 +314,12 @@ export default {
     z-index: 1;
     flex-direction: column;
 
+    @media (max-width: 992px) {
+      max-width: 300px;
+    }
+
     .ProfileOwner {
-      padding: 50px var(--padding-side);
+      padding: 50px var(--padding-side) 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -384,6 +387,7 @@ export default {
       border: none;
       background-color: transparent;
       display: flex;
+      text-align: start;
       cursor: pointer;
       transition: 0.3s ease all;
 
@@ -405,7 +409,7 @@ export default {
       border: none;
       background-color: transparent;
       display: flex;
-      padding: 0 var(--padding-side) 50px;
+      padding: 20px var(--padding-side) 50px;
       cursor: pointer;
       font-weight: 700;
       font-size: 17px;
@@ -419,9 +423,14 @@ export default {
   }
 
   .MainContent {
-    position: relative;
     padding: 50px 20px 0;
-    width: 100%;
+    width: 100vw;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
     .MainContentWrapper{
       max-width: 456px;
@@ -448,6 +457,7 @@ export default {
           .TableCell {
             display: table-cell;
             padding-bottom: 8px;
+            min-width: 133px;
             
             &.type_bold {
               padding-left: 30px;
@@ -458,46 +468,12 @@ export default {
       }
     }
 
-    .ProfileSettings {
-      .SectionLoadPhoto {
-        .LoadImage {
-          width: 100px;
-          height: 100px;
-          background-color: var(--border_secondary);
-          border: 1px solid var(--border);
-          border-radius: 6.66px;
-          margin-bottom: 4px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          justify-content: center;
-          cursor: pointer;
-
-          .LoadImageTitle {
-            font-size: 10px;
-            line-height: 1.25;
-            color: var(--text_secondary);
-          }
-        }
-      }
-    }
-
-    .Title {
-      font-weight: 600;
-      padding-bottom: 6px;
-    }
-
     .SelectItem {
       padding: 8.5px 0 9.5px 12px;
     }
 
     .Annotation {
       color: var(--text_secondary);
-    }
-
-    .Title,
-    .Annotation {
       display: block;
       font-size: 11px;
       line-height: 1.1;
@@ -523,27 +499,25 @@ export default {
     }
   }
 
-  .BtnHideSidebar {
+  .BtnSidebar {
     position: absolute;
     top: 20px;
-    right: 20px;
     cursor: pointer;
     border: none;
     background-color: transparent;
 
-    @media (max-width: 992px) {
-      display: none;
+    &.type_hide {
+      right: 20px;
+
+      @media (min-width: 992px) {
+        display: none;
+      }
     }
-  }
 
-  .BtnOpenSidebar {
-    display: flex;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
+    &.type_open {
+      display: flex;
+      left: 20px;
+    }  
   }
   
   .Subtitle {
@@ -568,6 +542,18 @@ export default {
     color: var(--text_main);
   }
 
+  .LoadImage {
+    width: 100px;
+    height: 116px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+
+    & > * {
+      font-weight: 700;
+    }
+  }
+
   &.withOpenedSidebar {
     .Sidebar{
       display: flex;
@@ -575,6 +561,7 @@ export default {
 
       @media (max-width: 576px) {
         max-width: 100vw;
+        position: absolute;
       }
     }
 
