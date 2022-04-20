@@ -551,6 +551,7 @@ export default {
 
     & > * {
       font-weight: 700;
+      margin-bottom: 4px;
     }
   }
 
