@@ -541,7 +541,6 @@ export default {
   }
 
   .LoadImage {
-    width: 100px;
     height: 116px;
     display: flex;
     flex-direction: column;
