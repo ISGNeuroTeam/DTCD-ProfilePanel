@@ -12,7 +12,6 @@
           <path d="M12.9458 2.92929L5.875 10.0001L12.9458 17.071L14.125 15.8926L8.23167 10.0001L14.125 4.10762L12.9458 2.92929Z" fill="#17569B"/>
         </svg>
       </button>
-
       <div class="ProfileOwner">
         <div class="ProfilePhoto" style="background-image: url(https://playcontestofchampions.com/wp-content/uploads/2021/11/champion-iron-man-infinity-war-720x720.jpg);"></div>
         <div class="ProfileOwnerData">
@@ -296,14 +295,29 @@ export default {
   position: relative;
   display: flex;
   min-height: 100%;
+  background-color: var(--background_main);
+
+  svg {
+    path { 
+      fill: var(--accent); 
+    }
+  }
 
   &,
   *,
   *::after,
   *::before {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  }
+
+  &,
+  * {
+    &::after,
+    &::before,
+    &:not([slot="label"]) {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   .Sidebar {
@@ -330,7 +344,7 @@ export default {
         max-width: 258px;
         width: 100%;
         border-radius: 20px;
-        background-color: aquamarine;
+        background-color: var(--button_primary_24);
         margin-bottom: 8px;
         position: relative;
         display: flex;
@@ -545,6 +559,12 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: 4px;
+
+    svg {
+      path { 
+        fill: var(--text_secondary); 
+      }
+    }
   }
 
   &.withOpenedSidebar {
