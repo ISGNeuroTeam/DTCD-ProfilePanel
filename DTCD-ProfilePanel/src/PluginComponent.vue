@@ -339,10 +339,6 @@ export default {
         background-size: cover;
         background-position: center;
 
-        @media (max-width: 992px) {
-          max-width: 180px;
-        }
-
         &::before {
           content: '';
           display: block;
