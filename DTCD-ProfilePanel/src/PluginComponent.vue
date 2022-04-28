@@ -437,6 +437,7 @@ export default {
   .MainContent {
     padding: 50px 20px 0;
     width: 100vw;
+    background-color: var(--background_main);
 
     @media (max-width: 768px) {
       position: absolute;
