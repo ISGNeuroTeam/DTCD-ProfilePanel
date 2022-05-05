@@ -12,4 +12,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - inited panel
 - html layout
 - css styles
-- scripts 
+- scripts
+- ability to view and edit user data

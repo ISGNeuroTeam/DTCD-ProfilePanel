@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="ProfilePanel"
-    :class="isSidebarOpened ? 'withOpenedSidebar': ''"
-  >
+  <div class="ProfilePanel" :class="{ withOpenedSidebar: isSidebarOpened }">
     <section class="Sidebar">
       <button
         @click="isSidebarOpened = !isSidebarOpened"
@@ -13,13 +10,14 @@
         </svg>
       </button>
       <div class="ProfileOwner">
-        <div class="ProfilePhoto" style="background-image: url(https://playcontestofchampions.com/wp-content/uploads/2021/11/champion-iron-man-infinity-war-720x720.jpg);"></div>
+        <div class="ProfilePhoto" ref="photoBox"></div>
         <div class="ProfileOwnerData">
           <base-heading class="ProfileOwnerName" theme="theme_subheaderSmall">
-            <h1>Георгий Арановский</h1>
+            <h1 v-text="fullname"/>
           </base-heading>
-          <p class="ProfileOwnerPosition">Дизайнер в ISG Neuro</p>
-          <p class="ProfileOwnerRole">Роль: Администратор</p>
+          <!-- DISABLED TO THE FUTURE -->
+          <!-- <p class="ProfileOwnerPosition">Дизайнер в ISG Neuro</p>
+          <p class="ProfileOwnerRole">Роль: Администратор</p> -->
         </div>
       </div>
 
@@ -33,28 +31,29 @@
           </svg>
           Профиль
         </h2>
-        <button 
-          @click="() => { toggleProfileContent('profile_info') }"
-          :class="typeVisibleContent === 'profile_info' ? 'active' : ''"
+        <button
           class="SidebarMenuItem"
-        > 
+          :class="{ active: typeVisibleContent === 'profile_info' }"
+          @click="toggleProfileContent('profile_info')"
+        >
           Мой профиль
         </button>
-        <button 
-          @click="() => { toggleProfileContent('choice_theme') }"
-          :class="typeVisibleContent === 'choice_theme' ? 'active' : ''"
+        <button
           class="SidebarMenuItem"
+          :class="{ active: typeVisibleContent === 'choice_theme' }"
+          @click="toggleProfileContent('choice_theme')"
         >
           Выбор темы
         </button>
-        <button 
-          @click="() => { toggleProfileContent('profile_settings') }"
-          :class="typeVisibleContent === 'profile_settings' ? 'active' : ''"
+        <button
           class="SidebarMenuItem"
+          :class="{ active: typeVisibleContent === 'profile_settings' }"
+          @click="toggleProfileContent('profile_settings')"
         >
           Настройки профиля
         </button>
       </nav>
+      <!-- DISABLED TO THE FUTURE -->
       <!-- <nav class="SidebarMenu">
         <h2 class="SidebarMenuTitle">
           <svg class="SidebarIcon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,20 +65,20 @@
           </svg>
           Панель администратора
         </h2>
-        <button 
-          v-on:click="changeClass" 
+        <button
+          v-on:click="changeClass"
           class="SidebarMenuItem"
         >Пользовательские роли</button>
-        <button 
-          v-on:click="changeClass" 
+        <button
+          v-on:click="changeClass"
           class="SidebarMenuItem"
         >Пользователи</button>
-        <button 
-          v-on:click="changeClass" 
+        <button
+          v-on:click="changeClass"
           class="SidebarMenuItem"
         >Настройки</button>
       </nav> -->
-      <button class="ButtonBack">
+      <button class="ButtonBack" @click="logout">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4.16667 2.5L11.6667 2.5C12.5871 2.5 13.3333 3.24619 13.3333 4.16667L13.3333 7.5L11.6667 7.5L11.6667 4.16667L4.16667 4.16666L4.16667 15.8333L11.6667 15.8333L11.6667 12.5L13.3333 12.5L13.3333 15.8333C13.3333 16.7538 12.5871 17.5 11.6667 17.5L4.16667 17.5C3.24619 17.5 2.5 16.7538 2.5 15.8333L2.5 4.16666C2.5 3.24619 3.24619 2.5 4.16667 2.5ZM10 6.66667L10 9.16667L17.5 9.16667L17.5 10.8333L10 10.8333L10 13.3333L5.83333 10L10 6.66667Z" fill="#17569B"/>
         </svg>
@@ -98,7 +97,7 @@
           </svg>
         </button>
 
-        <form 
+        <form
           v-if="typeVisibleContent === 'profile_info'"
           class="MyProfile"
         >
@@ -111,24 +110,25 @@
           <div class="ProfileTable">
             <div class="TableRow">
               <div class="TableCell">Имя:</div>
-              <div class="TableCell type_bold">Георгий Арановский</div>
+              <div class="TableCell type_bold" v-text="fullname"/>
             </div>
             <div class="TableRow">
               <div class="TableCell">Имя пользователя:</div>
-              <div class="TableCell type_bold">Aranovsky_G</div>
+              <div class="TableCell type_bold" v-text="userData.username"/>
             </div>
-            <div class="TableRow">
+            <!-- DISABLED TO THE FUTURE -->
+            <!-- <div class="TableRow">
               <div class="TableCell">Организация:</div>
               <div class="TableCell type_bold">ISG Neuro</div>
             </div>
             <div class="TableRow">
               <div class="TableCell">Роль:</div>
               <div class="TableCell type_bold">Администратор</div>
-            </div>
+            </div> -->
           </div>
         </form>
 
-        <form 
+        <form
           v-if="typeVisibleContent === 'choice_theme'"
           class="ProfileTheme"
         >
@@ -137,30 +137,28 @@
           </base-heading>
           <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
 
-          <base-select size="big" label="Мои темы">
-            <div class="SelectItem" slot="item" value="1">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
-              </svg>
-              Светлая
-            </div>
-            <div class="SelectItem" slot="item" value="2">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.71169 1.13799L7.91939 3.70404C7.95377 3.7771 8.02024 3.82774 8.09713 3.83946L10.7976 4.25095C10.9912 4.28045 11.0686 4.52997 10.9285 4.67319L8.97436 6.67058C8.91872 6.72745 8.89333 6.80939 8.90647 6.88969L9.36777 9.71005C9.40084 9.91228 9.19843 10.0665 9.02524 9.97101L6.60985 8.63942C6.54108 8.60151 6.45892 8.60151 6.39015 8.63942L3.97476 9.97101C3.80157 10.0665 3.59916 9.91228 3.63223 9.71005L4.09353 6.88969C4.10667 6.80939 4.08128 6.72745 4.02564 6.67058L2.07155 4.67319C1.93144 4.52997 2.00875 4.28045 2.20238 4.25095L4.90287 3.83946C4.97976 3.82774 5.04623 3.7771 5.08061 3.70404L6.28831 1.13799C6.3749 0.954002 6.6251 0.954002 6.71169 1.13799Z" fill="#F8B407"/>
-              </svg>
-              Темная
-            </div>
-            <div class="SelectItem" slot="item" value="3">Тема 1</div>
-            <div class="SelectItem" slot="item" value="4">Тема 2</div>
-            <div class="SelectItem" slot="item" value="5">Тема 3</div>
-            <div class="SelectItem" slot="item" value="6">Тема 4</div>
+          <base-select
+            :value="selectedTheme"
+            size="big"
+            label="Мои темы"
+            @input="handleThemeSelector($event)"
+          >
+            <div
+              v-for="(theme, index) in themeList"
+              :key="index"
+              slot="item"
+              class="SelectItem"
+              :value="theme.name"
+              v-text="theme.name"
+            />
           </base-select>
-          <div class="FooterButtons">
+
+          <div class="FooterButtons" @click="saveUserTheme">
             <base-button size="big">Сохранить</base-button>
           </div>
         </form>
 
-        <form 
+        <form
           v-if="typeVisibleContent === 'profile_settings'"
           class="ProfileSettings"
         >
@@ -168,72 +166,73 @@
             <h1>Настройки профиля</h1>
           </base-heading>
           <h2 class="Subtitle">Основная информация</h2>
-          
+
           <base-file-loader
+            class="LoadImage"
             label="Фото"
             description="Загрузить изображение"
-            class="LoadImage"
+            accept=".jpg, .jpeg, .png"
+            @input="handlePhoto($event)"
           >
-            <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">    
+            <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21ZM5 5V19H19V5H5ZM18 17H6L9 13L10 14L13 10L18 17ZM8.5 11C7.67157 11 7 10.3284 7 9.5C7 8.67157 7.67157 8 8.5 8C9.32843 8 10 8.67157 10 9.5C10 10.3284 9.32843 11 8.5 11Z" fill="#938FA0"/>
             </svg>
           </base-file-loader>
 
-          <span class="Annotation">Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен превышать 10mb.</span>
+          <span class="Annotation">
+            Загрузите изображение в формате JPEG или PNG.
+            Максимальный размер файла не должен превышать 10mb.
+          </span>
 
-          <base-input 
-            class="FieldInput" 
-            label="Имя" 
-            placeholder="Георгий" 
+          <base-input
+            :value="tempUserData.firstName"
+            class="FieldInput"
+            label="Имя"
+            placeholder="Введите имя"
+            size="big"
+            @input="tempUserData.firstName = $event.target.value"
+          ></base-input>
+          <base-input
+            :value="tempUserData.lastName"
+            class="FieldInput"
+            label="Фамилия"
+            placeholder="Введите фамилию"
+            size="big"
+            @input="tempUserData.lastName = $event.target.value"
+          ></base-input>
+          <base-input
+            :value="tempUserData.email"
+            class="FieldInput"
+            label="Электронная почта"
+            placeholder="Введите адрес электронной почты"
+            size="big"
+            @input="tempUserData.email = $event.target.value"
+          ></base-input>
+
+          <!-- DISABLED TO THE FUTURE -->
+          <!-- <h2 class="Subtitle">Изменить пароль</h2>
+          <base-input
+            class="FieldInput"
+            type="password"
+            label="Старый пароль"
             size="big">
           </base-input>
-          <base-input 
-            class="FieldInput" 
-            label="Фамилия" 
-            placeholder="Арановский" 
+          <base-input
+            class="FieldInput"
+            type="password"
+            label="Новый пароль"
             size="big">
           </base-input>
-          <base-input 
-            class="FieldInput" 
-            label="Имя пользователя" 
-            placeholder="Aranovsky.G" 
+          <base-input
+            class="FieldInput"
+            type="password"
+            label="Повторите пароль"
             size="big">
-          </base-input>
-          <base-input 
-            class="FieldInput" 
-            label="Электронная почта" 
-            placeholder="Введите адрес электронной почты" 
-            size="big">
-          </base-input>
-          <base-input 
-            class="FieldInput" 
-            label="Название организации" 
-            placeholder="Введите название организации" 
-            size="big">
-          </base-input>
-          <h2 class="Subtitle">Изменить пароль</h2>
-          <base-input 
-            class="FieldInput" 
-            type="password" 
-            label="Старый пароль" 
-            size="big">
-          </base-input>
-          <base-input 
-            class="FieldInput" 
-            type="password" 
-            label="Новый пароль" 
-            size="big">
-          </base-input>
-          <base-input 
-            class="FieldInput" 
-            type="password" 
-            label="Повторите пароль" 
-            size="big">
-          </base-input>
-          
+          </base-input> -->
+
           <div class="FooterButtons">
-            <base-button size="big" theme="theme_blueSec">Отменить</base-button>
-            <base-button size="big">Сохранить</base-button>
+            <base-button size="big" theme="theme_blueSec" @click="revertUserData">Отменить</base-button>
+            <base-button size="big" @click="saveUserData">Сохранить</base-button>
           </div>
         </form>
       </div>
@@ -244,12 +243,51 @@
 <script>
 export default {
   name: 'ProfilePanel',
-  data() {
+  data(self) {
     return {
+      styleSystem: self.$root.styleSystem,
+      interactionSystem: self.$root.interactionSystem,
       typeVisibleContent: 'profile_info',
       isSidebarOpened: true,
       windowResizeTimer: null,
+      userEndpoint: '/mock_server/v1/user',
+      themeList: [],
+      selectedTheme: '',
+      tempUserData: {
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        photo: '',
+      },
+      userData: {
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        photo: '',
+      },
     };
+  },
+  computed: {
+    fullname() {
+      const { firstName, lastName } = this.userData;
+      return `${firstName} ${lastName}`;
+    },
+  },
+  created() {
+    window.addEventListener('resize', this.onResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
+  },
+  async mounted() {
+    const userData = await this.getUserData();
+    this.setUserData(userData);
+    this.themeList = await this.styleSystem.getThemes();
+    this.selectedTheme = this.styleSystem.getCurrentTheme().name;
   },
   methods: {
     toggleProfileContent(typeTargetForm) {
@@ -264,22 +302,97 @@ export default {
           break;
       }
     },
+
     onResize() {
       if(this.windowResizeTimer !== null) {
-        clearTimeout(this.windowResizeTimer);        
+        clearTimeout(this.windowResizeTimer);
       }
       this.windowResizeTimer = setTimeout(() => {
         if (window.innerWidth > 992) {
           this.isSidebarOpened = true;
         }
       }, 50);
-    }
-  },
-  created() {
-    window.addEventListener('resize', this.onResize);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    },
+
+    handleThemeSelector(event) {
+      const { value } = event.target;
+      this.selectedTheme = value;
+      // const theme = this.themeList.find(t => t.name === value);
+      // this.styleSystem.setVariablesToElement(document.getElementById('page'), theme);
+    },
+
+    setPhotoBackground(photoBase64) {
+      this.$refs.photoBox.style.backgroundImage = `url(${photoBase64})`;
+    },
+
+    revertUserData() {
+      this.tempUserData = { ...this.userData };
+    },
+
+    setUserData(data) {
+      for (const [key, value] of Object.entries(data)) {
+        if (key in this.userData) {
+          this.userData[key] = value;
+          this.tempUserData[key] = value;
+          if (key === 'photo') this.setPhotoBackground(value);
+        }
+      }
+    },
+
+    convertFileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    },
+
+    async getUserData() {
+      const result = await this.interactionSystem.GETRequest(this.userEndpoint);
+      return result.data;
+    },
+
+    async handlePhoto(event) {
+      if (event.target.value.length <= 0) return;
+
+      const [file] = event.target.value;
+      const photo = await this.convertFileToBase64(file);
+
+      this.tempUserData.photo = photo;
+      this.setPhotoBackground(photo);
+    },
+
+    async saveUserData() {
+      const params = {};
+
+      for (const [key, value] of Object.entries(this.tempUserData)) {
+        if (key !== 'username' && value !== this.userData[key]) {
+          params[key] = value;
+        }
+      }
+
+      if (Object.keys(params).length <= 0) return;
+
+      try {
+        const result = await this.interactionSystem.PUTRequest(this.userEndpoint, params);
+        this.setUserData(result.data);
+      } catch (error) {
+        const { isAxiosError, response } = error;
+        if (isAxiosError && response.status === 304) {
+          return;
+        }
+        throw error;
+      }
+    },
+
+    saveUserTheme() {
+      this.styleSystem.setTheme(this.selectedTheme);
+    },
+
+    async logout() {
+      await Application.getSystem('AuthSystem', '0.1.0').logout();
+    },
   },
 }
 </script>
@@ -298,8 +411,8 @@ export default {
   background-color: var(--background_main);
 
   svg {
-    path { 
-      fill: var(--accent); 
+    path {
+      fill: var(--accent);
     }
   }
 
@@ -471,7 +584,7 @@ export default {
             display: table-cell;
             padding-bottom: 8px;
             min-width: 133px;
-            
+
             &.type_bold {
               padding-left: 30px;
               font-weight: 700;
@@ -530,9 +643,9 @@ export default {
     &.type_open {
       display: flex;
       left: 20px;
-    }  
+    }
   }
-  
+
   .Subtitle {
     color: var(--title);
     font-size: 17px;
@@ -562,8 +675,8 @@ export default {
     margin-bottom: 4px;
 
     svg {
-      path { 
-        fill: var(--text_secondary); 
+      path {
+        fill: var(--text_secondary);
       }
     }
   }
