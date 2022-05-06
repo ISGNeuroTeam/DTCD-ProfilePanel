@@ -14,3 +14,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - css styles
 - scripts
 - ability to view and edit user data
+- theme preview in theme change section

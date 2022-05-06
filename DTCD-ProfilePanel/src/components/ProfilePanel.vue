@@ -154,7 +154,7 @@
                 v-text="theme.name"
               />
             </base-select>
-            <ThemeWindow />
+            <ThemeWindow ref="themePreview"/>
           </div>
 
           <div class="FooterButtons" @click="saveUserTheme">
@@ -323,9 +323,12 @@ export default {
 
     handleThemeSelector(event) {
       const { value } = event.target;
+
+      if (value === this.selectedTheme) return;
+
+      const theme = this.themeList.find(t => t.name === value);
       this.selectedTheme = value;
-      // const theme = this.themeList.find(t => t.name === value);
-      // this.styleSystem.setVariablesToElement(document.getElementById('page'), theme);
+      this.styleSystem.setVariablesToElement(this.$refs.themePreview.$el, theme);
     },
 
     setPhotoBackground(photoBase64) {
