@@ -135,7 +135,7 @@
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
             <h1>Выбор темы</h1>
           </base-heading>
-          <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
+          <h2 class="Subtitle">Выберите цветовую тему</h2>
 
           <div class="ThemeGroup">
             <base-select
@@ -534,7 +534,7 @@ export default {
 
       &.active {
         background-color: var(--button_primary_86);
-        color:var(--background_main);
+        color:var(--general_white);
       }
     }
 
@@ -597,7 +597,7 @@ export default {
       .ProfileTable {
         display: table;
         border-collapse:collapse;
-        font-size: 15px;
+        // font-size: 15px;
 
         .TableRow {
           display: table-row;
@@ -671,6 +671,7 @@ export default {
   .Subtitle {
     color: var(--title);
     font-size: 17px;
+    font-weight: 400;
   }
 
   .ProfileOwnerPosition {
