@@ -1,12 +1,12 @@
 <template>
-  <ThemeWindow />
+  <ProfilePanel />
 </template>
 
 <script>
-import ThemeWindow from '@/components/ThemeWindow';
+import ProfilePanel from '@/components/ProfilePanel';
 
 export default {
   name: 'PluginComponent',
-  components: { ThemeWindow },
+  components: { ProfilePanel },
 };
 </script>

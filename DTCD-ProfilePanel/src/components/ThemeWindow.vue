@@ -58,10 +58,12 @@ export default {
 <style lang="scss" scoped>
 
 .ThemeWindow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
+
+	@media (min-width: 992px) {
+    position: absolute;
+		top: 0;
+		left: 100%;
+  }
 
 	&,
 	*,
@@ -74,7 +76,7 @@ export default {
 		background-color: var(--background_main);
 		border: none;
 		border-radius: 20px;
-		max-width: 306px;
+		width: 306px;
 		display: flex;
 		flex-direction: column;
 		padding: 32px;

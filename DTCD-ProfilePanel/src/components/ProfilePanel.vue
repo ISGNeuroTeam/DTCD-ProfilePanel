@@ -137,21 +137,25 @@
           </base-heading>
           <h2 class="Subtitle">Выберите цветовую тему или создайте свою</h2>
 
-          <base-select
-            :value="selectedTheme"
-            size="big"
-            label="Мои темы"
-            @input="handleThemeSelector($event)"
-          >
-            <div
-              v-for="(theme, index) in themeList"
-              :key="index"
-              slot="item"
-              class="SelectItem"
-              :value="theme.name"
-              v-text="theme.name"
-            />
-          </base-select>
+          <div class="ThemeGroup">
+            <base-select
+              class="ThemeSelect"
+              :value="selectedTheme"
+              size="big"
+              label="Мои темы"
+              @input="handleThemeSelector($event)"
+            >
+              <div
+                v-for="(theme, index) in themeList"
+                :key="index"
+                slot="item"
+                class="SelectItem"
+                :value="theme.name"
+                v-text="theme.name"
+              />
+            </base-select>
+            <ThemeWindow />
+          </div>
 
           <div class="FooterButtons" @click="saveUserTheme">
             <base-button size="big">Сохранить</base-button>
@@ -241,8 +245,11 @@
 </template>
 
 <script>
+import ThemeWindow from '@/components/ThemeWindow';
+
 export default {
   name: 'ProfilePanel',
+  components: { ThemeWindow },
   data(self) {
     return {
       styleSystem: self.$root.styleSystem,
@@ -394,10 +401,11 @@ export default {
       await Application.getSystem('AuthSystem', '0.1.0').logout();
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
+
 .ProfilePanel {
   --padding-side: 30px;
 
@@ -550,7 +558,7 @@ export default {
   .MainContent {
     padding: 50px 20px 0;
     width: 100vw;
-    background-color: var(--background_main);
+    background-color: var(--background_secondary);
 
     @media (max-width: 768px) {
       position: absolute;
@@ -569,6 +577,20 @@ export default {
       display: flex;
       flex-direction: column;
       min-height: 100%;
+    }
+
+    .ThemeGroup {
+      max-width: 340px;
+      padding-right: 30px;
+      position: relative;
+
+      @media (max-width: 992px) {
+        padding-right: 0;
+      }
+    }
+
+    .ThemeSelect {
+      margin-bottom: 30px;
     }
 
     .MyProfile {
