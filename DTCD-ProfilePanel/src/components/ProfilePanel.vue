@@ -52,6 +52,13 @@
         >
           Настройки профиля
         </button>
+        <button
+          class="SidebarMenuItem"
+          :class="{ active: typeVisibleContent === 'security_settings' }"
+          @click="toggleProfileContent('security_settings')"
+        >
+          Настройки безопасности
+        </button>
       </nav>
       <!-- DISABLED TO THE FUTURE -->
       <!-- <nav class="SidebarMenu">
@@ -239,6 +246,8 @@
             <base-button size="big" @click="saveUserData">Сохранить</base-button>
           </div>
         </form>
+
+        <SecuritySettings v-if="typeVisibleContent === 'security_settings'"/>
       </div>
     </section>
   </div>
@@ -246,10 +255,11 @@
 
 <script>
 import ThemeWindow from '@/components/ThemeWindow';
+import SecuritySettings from './SecuritySettings.vue'
 
 export default {
   name: 'ProfilePanel',
-  components: { ThemeWindow },
+  components: { ThemeWindow, SecuritySettings },
   data(self) {
     return {
       styleSystem: self.$root.styleSystem,
@@ -301,6 +311,7 @@ export default {
       switch (typeTargetForm) {
         case 'choice_theme':
         case 'profile_settings':
+        case 'security_settings':
           this.typeVisibleContent = typeTargetForm;
           break;
 
