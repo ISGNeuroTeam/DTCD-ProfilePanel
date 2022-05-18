@@ -12,7 +12,7 @@ export class ProfilePanel extends PanelPlugin {
     super();
 
     const { default: VueJS } = this.getDependence('Vue');
-    const styleSystem = new StyleSystemAdapter('0.4.0');
+    const styleSystem = new StyleSystemAdapter('0.5.0');
     const interactionSystem = new InteractionSystemAdapter('0.4.0');
     const data = { guid, styleSystem, interactionSystem };
 
