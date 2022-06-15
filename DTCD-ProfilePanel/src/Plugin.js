@@ -1,9 +1,13 @@
 import pluginMeta from './Plugin.Meta';
 import PluginComponent from './PluginComponent.vue';
 
-import { PanelPlugin, StyleSystemAdapter, InteractionSystemAdapter } from './../../DTCD-SDK/index';
+import {
+  AppPanelPlugin,
+  StyleSystemAdapter,
+  InteractionSystemAdapter,
+} from './../../DTCD-SDK/index';
 
-export class ProfilePanel extends PanelPlugin {
+export class ProfilePanel extends AppPanelPlugin {
   static getRegistrationMeta() {
     return pluginMeta;
   }
