@@ -1,17 +1,14 @@
 <template>
   <div class="ProfilePanel" :class="{ withOpenedSidebar: isSidebarOpened }">
     <section class="Sidebar">
-      <button
-        @click="isSidebarOpened = !isSidebarOpened"
-        class="BtnSidebar type_hide"
-      >
+      <button @click="isSidebarOpened = !isSidebarOpened" class="BtnSidebar type_hide">
         <span class="FontIcon name_chevronBigDown rotate_90 size_md"></span>
       </button>
       <div class="ProfileOwner">
         <div class="ProfilePhoto" ref="photoBox"></div>
         <div class="ProfileOwnerData">
           <base-heading class="ProfileOwnerName" theme="theme_subheaderSmall">
-            <h1 v-text="fullname"/>
+            <h1 v-text="fullname" />
           </base-heading>
           <!-- DISABLED TO THE FUTURE -->
           <!-- <p class="ProfileOwnerPosition">Дизайнер в ISG Neuro</p>
@@ -80,17 +77,11 @@
 
     <section class="MainContent">
       <div class="MainContentWrapper">
-        <button
-          @click="isSidebarOpened = !isSidebarOpened"
-          class="BtnSidebar type_open"
-        >
+        <button @click="isSidebarOpened = !isSidebarOpened" class="BtnSidebar type_open">
           <span class="FontIcon name_chevronBigDown rotate_270 size_md"></span>
         </button>
 
-        <form
-          v-if="typeVisibleContent === 'profile_info'"
-          class="MyProfile"
-        >
+        <form v-if="typeVisibleContent === 'profile_info'" class="MyProfile">
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
             <h1>Мой профиль</h1>
           </base-heading>
@@ -100,11 +91,11 @@
           <div class="ProfileTable">
             <div class="TableRow">
               <div class="TableCell">Имя:</div>
-              <div class="TableCell type_bold" v-text="fullname"/>
+              <div class="TableCell type_bold" v-text="fullname" />
             </div>
             <div class="TableRow">
               <div class="TableCell">Имя пользователя:</div>
-              <div class="TableCell type_bold" v-text="userData.username"/>
+              <div class="TableCell type_bold" v-text="userData.username" />
             </div>
             <!-- DISABLED TO THE FUTURE -->
             <!-- <div class="TableRow">
@@ -118,10 +109,7 @@
           </div>
         </form>
 
-        <form
-          v-if="typeVisibleContent === 'choice_theme'"
-          class="ProfileTheme"
-        >
+        <form v-if="typeVisibleContent === 'choice_theme'" class="ProfileTheme">
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
             <h1>Выбор темы</h1>
           </base-heading>
@@ -144,7 +132,7 @@
                 v-text="theme.name"
               />
             </base-select>
-            <ThemeWindow ref="themePreview"/>
+            <ThemeWindow ref="themePreview" />
           </div>
 
           <div class="FooterButtons" @click="saveUserTheme">
@@ -152,10 +140,7 @@
           </div>
         </form>
 
-        <form
-          v-if="typeVisibleContent === 'profile_settings'"
-          class="ProfileSettings"
-        >
+        <form v-if="typeVisibleContent === 'profile_settings'" class="ProfileSettings">
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
             <h1>Настройки профиля</h1>
           </base-heading>
@@ -172,8 +157,8 @@
           </base-file-loader>
 
           <span class="Annotation">
-            Загрузите изображение в формате JPEG или PNG.
-            Максимальный размер файла не должен превышать 10mb.
+            Загрузите изображение в формате JPEG или PNG. Максимальный размер файла не должен
+            превышать 10mb.
           </span>
 
           <base-input
@@ -223,12 +208,14 @@
           </base-input> -->
 
           <div class="FooterButtons">
-            <base-button size="big" theme="theme_blueSec" @click="revertUserData">Отменить</base-button>
+            <base-button size="big" theme="theme_blueSec" @click="revertUserData"
+              >Отменить</base-button
+            >
             <base-button size="big" @click="saveUserData">Сохранить</base-button>
           </div>
         </form>
 
-        <SecuritySettings v-if="typeVisibleContent === 'security_settings'"/>
+        <SecuritySettings v-if="typeVisibleContent === 'security_settings'" />
       </div>
     </section>
   </div>
@@ -236,7 +223,7 @@
 
 <script>
 import ThemeWindow from '@/components/ThemeWindow';
-import SecuritySettings from './SecuritySettings.vue'
+import SecuritySettings from './SecuritySettings.vue';
 
 export default {
   name: 'ProfilePanel',
@@ -248,7 +235,7 @@ export default {
       typeVisibleContent: 'profile_info',
       isSidebarOpened: true,
       windowResizeTimer: null,
-      userEndpoint: '/mock_server/v1/user',
+      userEndpoint: '/dtcd_utils/v1/user',
       themeList: [],
       selectedTheme: '',
       tempUserData: {
@@ -303,7 +290,7 @@ export default {
     },
 
     onResize() {
-      if(this.windowResizeTimer !== null) {
+      if (this.windowResizeTimer !== null) {
         clearTimeout(this.windowResizeTimer);
       }
       this.windowResizeTimer = setTimeout(() => {
@@ -400,7 +387,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .ProfilePanel {
   --padding-side: 30px;
 
@@ -418,7 +404,7 @@ export default {
 
     &.name_userFilled::before,
     &.name_admin::before,
-    &.name_logout::before  {
+    &.name_logout::before {
       font-size: 20px;
     }
 
@@ -438,7 +424,7 @@ export default {
   * {
     &::after,
     &::before,
-    &:not([slot="label"]) {
+    &:not([slot='label']) {
       margin: 0;
       padding: 0;
     }
@@ -537,7 +523,7 @@ export default {
 
       &.active {
         background-color: var(--button_primary_86);
-        color:var(--general_white);
+        color: var(--general_white);
       }
     }
 
@@ -569,7 +555,7 @@ export default {
       top: 0;
     }
 
-    .MainContentWrapper{
+    .MainContentWrapper {
       max-width: 456px;
       height: 100%;
     }
@@ -599,7 +585,7 @@ export default {
     .MyProfile {
       .ProfileTable {
         display: table;
-        border-collapse:collapse;
+        border-collapse: collapse;
         // font-size: 15px;
 
         .TableRow {
@@ -708,7 +694,7 @@ export default {
   }
 
   &.withOpenedSidebar {
-    .Sidebar{
+    .Sidebar {
       display: flex;
       width: 100%;
 

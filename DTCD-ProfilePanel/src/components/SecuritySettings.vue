@@ -48,13 +48,13 @@
 <script>
 export default {
   name: 'SecuritySettings',
-  data: (self) => ({
+  data: self => ({
     interactionSystem: self.$root.interactionSystem,
-    changeEndpoint: '/mock_server/v1/user/change-password',
+    changeEndpoint: '/dtcd_utils/v1/user/change-password',
     isPasswordVisible: false,
     fields: {
-      oldPass: { val: '' , isValid: false },
-      newPass: { val: '' , isValid: false },
+      oldPass: { val: '', isValid: false },
+      newPass: { val: '', isValid: false },
       newPassRepeat: { val: '', isValid: false },
     },
   }),
@@ -66,8 +66,8 @@ export default {
   },
   methods: {
     async savePassword() {
-      ['oldPassInput', 'newPassInput', 'newPassRepeatInput'].forEach(
-        field => this.$refs[field].validate()
+      ['oldPassInput', 'newPassInput', 'newPassRepeatInput'].forEach(field =>
+        this.$refs[field].validate()
       );
 
       if (!this.isAllFieldsValid()) return;
@@ -153,7 +153,7 @@ export default {
   * {
     &::after,
     &::before,
-    &:not([slot="label"]) {
+    &:not([slot='label']) {
       margin: 0;
       padding: 0;
     }
