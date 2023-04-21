@@ -1,13 +1,14 @@
 <template>
   <form class="ProfileTheme">
     <base-heading class="MainTitle" theme="theme_subheaderSmall">
-      <h1>Выбор темы</h1>
+      <h1>Настройки отображения</h1>
     </base-heading>
-    <h2 class="Subtitle">Выберите цветовую тему</h2>
 
-    <div class="ThemeGroup">
+    <div class="FieldGroup">
+      <h2 class="Subtitle">Выберите цветовую тему</h2>
+
       <base-select
-        class="ThemeSelect"
+        class="FieldInput"
         :value="selectedTheme"
         size="big"
         label="Мои темы"
@@ -22,11 +23,35 @@
           v-text="theme.name"
         />
       </base-select>
+
       <ThemeWindow ref="themePreview" />
     </div>
 
-    <div class="FooterButtons" @click="saveUserTheme">
-      <base-button size="big">Сохранить</base-button>
+    <div class="FieldGroup">
+      <h2 class="Subtitle">Настройки форматирования</h2>
+
+      <base-select
+        class="FieldInput"
+        :value="selectedNumberFormat"
+        size="big"
+        label="Формат чисел"
+        @input="handleNumberFormatInput"
+      >
+        <div
+          v-for="(numberFormat, index) in numberFormatItems"
+          :key="numberFormat.text+index"
+          slot="item"
+          :value="numberFormat.value"
+          v-text="numberFormat.text"
+        />
+      </base-select>
+    </div>
+
+    <div class="FooterButtons">
+      <base-button
+        size="big"
+        @click="saveUserTheme"
+      >Сохранить</base-button>
     </div>
   </form>
 </template>
@@ -43,11 +68,25 @@ export default {
     return {
       themeList: [],
       selectedTheme: '',
+      selectedNumberFormat: '',
     };
   },
   computed: {
     styleSystem() {
       return this.$root.styleSystem;
+    },
+    numberFormatItems() {
+      const numberFormatExample = 1000.01;
+      return [
+        {
+          text: `${numberFormatExample.toLocaleString()} - Автоматический`,
+          value: false,
+        },
+        ...['en-US', 'ru-RU', 'tr-CY'].map((value) => ({
+          text: numberFormatExample.toLocaleString(value),
+          value,
+        })),
+      ];
     },
   },
   created() {
@@ -56,6 +95,9 @@ export default {
         this.themeList = result;
         this.selectedTheme = this.styleSystem.getCurrentTheme().name;
       });
+
+    this.selectedNumberFormat = window.localStorage.getItem('settings.numberFormat')
+                              || this.numberFormatItems[0].value;
   },
   methods: {
     handleThemeSelector(event) {
@@ -71,13 +113,13 @@ export default {
     },
     saveUserTheme() {
       this.styleSystem.setTheme(this.selectedTheme);
+      window.localStorage.setItem('settings.numberFormat', this.selectedNumberFormat);
+    },
+    handleNumberFormatInput(event) {
+      const { value } = event.target;
+      this.selectedNumberFormat = value;
     },
   },
-  watch: {
-    selectedTheme: (newValue) => {
-      return newValue;
-    }
-  }
 }
 </script>
 
@@ -87,22 +129,18 @@ export default {
   flex-direction: column;
   min-height: 100%;
 
-  .ThemeGroup {
-    max-width: 340px;
-    padding-right: 30px;
-    position: relative;
-
-    @media (max-width: 992px) {
-      padding-right: 0;
-    }
+  .MainTitle,
+  .Subtitle {
+    margin: 0;
+    padding-bottom: 16px;
   }
 
-  .ThemeSelect {
-    margin-bottom: 30px;
+  .FieldGroup {
+    padding-bottom: 30px;
   }
 
-  .SelectItem {
-    padding: 8.5px 0 9.5px 12px;
+  .FieldInput {
+    padding-bottom: 16px;
   }
 }
 </style>

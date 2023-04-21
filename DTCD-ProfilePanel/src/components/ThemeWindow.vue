@@ -2,7 +2,7 @@
   <div class="ThemeWindow">
     <div class="ThemeWrapper">
       <header class="Header">
-        <h1 class="ThemeTitle">Название</h1>
+        <h1 class="ThemeTitle">Пример выбранной темы</h1>
         <button type="button" class="ButtonClose" @click="close">
           <span class="FontIcon name_closeBig size_lg"></span>
         </button>
@@ -43,12 +43,6 @@ export default {
 
 <style lang="scss" scoped>
 .ThemeWindow {
-  @media (min-width: 992px) {
-    position: absolute;
-    top: 0;
-    left: 100%;
-  }
-
   &,
   *,
   *::after,

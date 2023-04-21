@@ -33,7 +33,7 @@
           :class="{ active: typeVisibleContent === 'choice_theme' }"
           @click="toggleProfileContent('choice_theme')"
         >
-          Выбор темы
+          Настройки отображения
         </button>
         <button
           class="SidebarMenuItem"
