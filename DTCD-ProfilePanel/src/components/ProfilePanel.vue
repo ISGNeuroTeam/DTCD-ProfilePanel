@@ -109,36 +109,7 @@
           </div>
         </form>
 
-        <form v-if="typeVisibleContent === 'choice_theme'" class="ProfileTheme">
-          <base-heading class="MainTitle" theme="theme_subheaderSmall">
-            <h1>Выбор темы</h1>
-          </base-heading>
-          <h2 class="Subtitle">Выберите цветовую тему</h2>
-
-          <div class="ThemeGroup">
-            <base-select
-              class="ThemeSelect"
-              :value="selectedTheme"
-              size="big"
-              label="Мои темы"
-              @input="handleThemeSelector($event)"
-            >
-              <div
-                v-for="(theme, index) in themeList"
-                :key="index"
-                slot="item"
-                class="SelectItem"
-                :value="theme.name"
-                v-text="theme.name"
-              />
-            </base-select>
-            <ThemeWindow ref="themePreview" />
-          </div>
-
-          <div class="FooterButtons" @click="saveUserTheme">
-            <base-button size="big">Сохранить</base-button>
-          </div>
-        </form>
+        <interface-settings v-if="typeVisibleContent === 'choice_theme'" />
 
         <form v-if="typeVisibleContent === 'profile_settings'" class="ProfileSettings">
           <base-heading class="MainTitle" theme="theme_subheaderSmall">
@@ -222,12 +193,18 @@
 </template>
 
 <script>
-import ThemeWindow from '@/components/ThemeWindow';
+// import ThemeWindow from '@/components/ThemeWindow';
 import SecuritySettings from './SecuritySettings.vue';
+import InterfaceSettings from './InterfaceSettings.vue';
 
 export default {
   name: 'ProfilePanel',
-  components: { ThemeWindow, SecuritySettings },
+  components: {
+    // ThemeWindow,
+    SecuritySettings,
+    InterfaceSettings,
+    InterfaceSettings,
+  },
   data(self) {
     return {
       styleSystem: self.$root.styleSystem,
@@ -236,8 +213,6 @@ export default {
       isSidebarOpened: true,
       windowResizeTimer: null,
       userEndpoint: '/dtcd_utils/v1/user',
-      themeList: [],
-      selectedTheme: '',
       tempUserData: {
         username: '',
         firstName: '',
@@ -271,8 +246,6 @@ export default {
   async mounted() {
     const userData = await this.getUserData();
     this.setUserData(userData);
-    this.themeList = await this.styleSystem.getThemes();
-    this.selectedTheme = this.styleSystem.getCurrentTheme().name;
   },
   methods: {
     toggleProfileContent(typeTargetForm) {
@@ -298,16 +271,6 @@ export default {
           this.isSidebarOpened = true;
         }
       }, 50);
-    },
-
-    handleThemeSelector(event) {
-      const { value } = event.target;
-
-      if (value === this.selectedTheme) return;
-
-      const theme = this.themeList.find(t => t.name === value);
-      this.selectedTheme = value;
-      this.styleSystem.setVariablesToElement(this.$refs.themePreview.$el, theme);
     },
 
     setPhotoBackground(photoBase64) {
@@ -387,13 +350,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ProfilePanel {
+.ProfilePanel::v-deep {
   --padding-side: 30px;
 
   font-family: 'Proxima Nova';
   font-size: 17px;
   line-height: 1.3;
   color: var(--text_main);
+
+  &,
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+  }
+
+  .Subtitle {
+    color: var(--title);
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+
+  .FooterButtons {
+    padding: 32px 0;
+    margin-top: auto;
+  }
+}
+
+.ProfilePanel {
   position: relative;
   display: flex;
   min-height: 100%;
@@ -413,12 +398,6 @@ export default {
     }
   }
 
-  &,
-  *,
-  *::after,
-  *::before {
-    box-sizing: border-box;
-  }
 
   &,
   * {
@@ -561,21 +540,10 @@ export default {
     }
 
     .MyProfile,
-    .ProfileTheme,
     .ProfileSettings {
       display: flex;
       flex-direction: column;
       min-height: 100%;
-    }
-
-    .ThemeGroup {
-      max-width: 340px;
-      padding-right: 30px;
-      position: relative;
-
-      @media (max-width: 992px) {
-        padding-right: 0;
-      }
     }
 
     .ThemeSelect {
@@ -605,10 +573,6 @@ export default {
       }
     }
 
-    .SelectItem {
-      padding: 8.5px 0 9.5px 12px;
-    }
-
     .Annotation {
       color: var(--text_secondary);
       display: block;
@@ -628,11 +592,6 @@ export default {
 
     .FieldInput {
       padding-bottom: 16px;
-    }
-
-    .FooterButtons {
-      padding: 32px 0;
-      margin-top: auto;
     }
   }
 
@@ -655,12 +614,6 @@ export default {
       display: flex;
       left: 20px;
     }
-  }
-
-  .Subtitle {
-    color: var(--title);
-    font-size: 17px;
-    font-weight: 400;
   }
 
   .ProfileOwnerPosition {
