@@ -79,8 +79,12 @@ export default {
       const numberFormatExample = 1000.01;
       return [
         {
+          text: `${numberFormatExample} - Без форматирования`,
+          value: 'no',
+        },
+        {
           text: `${numberFormatExample.toLocaleString()} - Автоматический`,
-          value: false,
+          value: 'auto',
         },
         ...['en-US', 'ru-RU', 'tr-CY'].map((value) => ({
           text: numberFormatExample.toLocaleString(value),
