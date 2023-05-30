@@ -5,6 +5,7 @@ import {
   AppPanelPlugin,
   StyleSystemAdapter,
   InteractionSystemAdapter,
+  NotificationSystemAdapter
 } from './../../DTCD-SDK/index';
 
 export class ProfilePanel extends AppPanelPlugin {
@@ -18,7 +19,8 @@ export class ProfilePanel extends AppPanelPlugin {
     const { default: VueJS } = this.getDependence('Vue');
     const styleSystem = new StyleSystemAdapter('0.5.0');
     const interactionSystem = new InteractionSystemAdapter('0.4.0');
-    const data = { guid, styleSystem, interactionSystem };
+    const notificationSystem = new NotificationSystemAdapter('0.1.1');
+    const data = { guid, styleSystem, interactionSystem, notificationSystem };
 
     new VueJS({
       data: () => data,
