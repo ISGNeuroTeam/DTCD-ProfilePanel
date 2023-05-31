@@ -23,7 +23,6 @@
           v-text="theme.name"
         />
       </base-select>
-
       <ThemeWindow ref="themePreview" />
     </div>
 
@@ -35,7 +34,7 @@
         :value="selectedNumberFormat"
         size="big"
         label="Формат чисел"
-        @input="handleNumberFormatInput"
+        @input="handleInput($event, 'selectedNumberFormat')"
       >
         <div
           v-for="(numberFormat, index) in numberFormatItems"
@@ -45,12 +44,34 @@
           v-text="numberFormat.text"
         />
       </base-select>
+
+      <base-select
+        class="FieldInput"
+        :value="signsAfterComma"
+        size="big"
+        label="Количество знаков после запятой"
+        @input="handleInput($event, 'signsAfterComma')"
+      >
+        <div
+          :key="20"
+          slot="item"
+          :value="20"
+          v-text="'Без ограничений'"
+        />
+        <div
+          v-for="(num, i) in 11"
+          :key="i"
+          slot="item"
+          :value="i"
+          v-text="i"
+        />
+      </base-select>
     </div>
 
     <div class="FooterButtons">
       <base-button
         size="big"
-        @click="saveUserTheme"
+        @click="saveUserSettings"
       >Сохранить</base-button>
     </div>
   </form>
@@ -64,11 +85,13 @@ export default {
   components: {
     ThemeWindow,
   },
-  data() {
+  data({$root}) {
     return {
       themeList: [],
       selectedTheme: '',
       selectedNumberFormat: '',
+      signsAfterComma: 20,
+      notificationSystem: $root.notificationSystem,
     };
   },
   computed: {
@@ -102,6 +125,7 @@ export default {
 
     this.selectedNumberFormat = window.localStorage.getItem('settings.numberFormat')
                               || this.numberFormatItems[0].value;
+    this.signsAfterComma = window.localStorage.getItem('settings.signsAfterComma') ?? this.signsAfterComma;
   },
   methods: {
     handleThemeSelector(event) {
@@ -115,14 +139,24 @@ export default {
         this.styleSystem.setVariablesToElement(this.$refs.themePreview.$el, theme);
       }
     },
-    saveUserTheme() {
+    saveUserSettings() {
       this.styleSystem.setTheme(this.selectedTheme);
       window.localStorage.setItem('settings.numberFormat', this.selectedNumberFormat);
+      window.localStorage.setItem('settings.signsAfterComma', this.signsAfterComma);
+      this.notificationSystem.create(
+        'Готово!',
+        'Настройки сохранены.',
+        {
+          floatMode: true,
+          floatTime: 5,
+          type: 'success',
+        }
+      );
     },
-    handleNumberFormatInput(event) {
+    handleInput(event, fieldName) {
       const { value } = event.target;
-      this.selectedNumberFormat = value;
-    },
+      this[fieldName] = value;
+    }
   },
 }
 </script>

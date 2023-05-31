@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - numbers formatting setting
+- notification on saving format settings
+- select of digits after comma
 
 ## [0.3.0]
 
