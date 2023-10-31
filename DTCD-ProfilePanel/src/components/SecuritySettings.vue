@@ -39,8 +39,8 @@
       <base-switch @input="isPasswordVisible = $event.target.value"></base-switch>
     </div>
     <div class="FooterButtons">
-      <base-button size="big" theme="theme_blueSec" @click="cancelChanges">Отменить</base-button>
-      <base-button size="big" @click="savePassword">Сохранить</base-button>
+      <base-button size="big" theme="theme_blueSec" @click="cancelChanges" disabled>Отменить</base-button>
+      <base-button size="big" @click="savePassword" disabled>Сохранить</base-button>
     </div>
   </div>
 </template>
@@ -66,6 +66,8 @@ export default {
   },
   methods: {
     async savePassword() {
+      // ! Will be refactored
+      return;
       ['oldPassInput', 'newPassInput', 'newPassRepeatInput'].forEach(field =>
         this.$refs[field].validate()
       );

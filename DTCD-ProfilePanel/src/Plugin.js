@@ -20,7 +20,8 @@ export class ProfilePanel extends AppPanelPlugin {
     const styleSystem = new StyleSystemAdapter('0.5.0');
     const interactionSystem = new InteractionSystemAdapter('0.4.0');
     const notificationSystem = new NotificationSystemAdapter('0.1.1');
-    const data = { guid, styleSystem, interactionSystem, notificationSystem };
+    const keycloak = this.getDependence('keycloak');
+    const data = { guid, styleSystem, interactionSystem, notificationSystem, keycloak };
 
     new VueJS({
       data: () => data,

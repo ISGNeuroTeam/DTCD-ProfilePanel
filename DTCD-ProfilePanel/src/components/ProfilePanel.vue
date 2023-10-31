@@ -179,10 +179,8 @@
           </base-input> -->
 
           <div class="FooterButtons">
-            <base-button size="big" theme="theme_blueSec" @click="revertUserData"
-              >Отменить</base-button
-            >
-            <base-button size="big" @click="saveUserData">Сохранить</base-button>
+            <base-button size="big" theme="theme_blueSec" @click="revertUserData" disabled>Отменить</base-button>
+            <base-button size="big" @click="saveUserData" disabled>Сохранить</base-button>
           </div>
         </form>
 
@@ -209,6 +207,7 @@ export default {
     return {
       styleSystem: self.$root.styleSystem,
       interactionSystem: self.$root.interactionSystem,
+      keycloak: self.$root.keycloak,
       typeVisibleContent: 'profile_info',
       isSidebarOpened: true,
       windowResizeTimer: null,
@@ -301,8 +300,9 @@ export default {
     },
 
     async getUserData() {
-      const result = await this.interactionSystem.GETRequest(this.userEndpoint);
-      return result.data;
+      const userData = await this.keycloak.loadUserProfile();
+      console.log(userData);
+      return userData;
     },
 
     async handlePhoto(event) {
@@ -316,6 +316,9 @@ export default {
     },
 
     async saveUserData() {
+      // ! Will be refactored
+      return;
+
       const params = {};
 
       for (const [key, value] of Object.entries(this.tempUserData)) {
