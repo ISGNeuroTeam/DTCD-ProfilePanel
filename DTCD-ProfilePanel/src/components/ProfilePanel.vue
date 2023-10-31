@@ -301,7 +301,6 @@ export default {
 
     async getUserData() {
       const userData = await this.keycloak.loadUserProfile();
-      console.log(userData);
       return userData;
     },
 
@@ -346,7 +345,7 @@ export default {
     },
 
     async logout() {
-      await Application.getSystem('AuthSystem', '0.1.0').logout();
+      await this.keycloak.logout();
     },
   },
 };
